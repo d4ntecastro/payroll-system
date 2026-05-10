@@ -1,3 +1,5 @@
+from calculations import calculate_tax
+from generator import generate_payslip
 from datetime import datetime
 from calculations import calculate_net_salary
 from database import create_tables, add_employee_to_db, get_all_employees, save_payroll_record
@@ -75,6 +77,20 @@ def run_monthly_payroll():
 
     print("\n✅ All payroll records saved to database.")
 
+
 # Update your menu() function to include:
 # print("2. Run Monthly Payroll")
 # print("3. Exit")
+
+# Inside your run_monthly_payroll() loop:
+for emp in employees:
+    emp_id, name, gross = emp
+    tax = calculate_tax(gross)
+    net = gross - tax
+
+    # Save to DB
+    save_payroll_record(emp_id, today, gross, net)
+
+    # NEW: Generate PDF
+    pdf_path = generate_payslip(name, today, gross, tax, net)
+    print(f"✅ Generated PDF for {name}: {pdf_path}")

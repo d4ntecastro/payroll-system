@@ -72,3 +72,16 @@ def save_payroll_record(emp_id, date, gross, net):
     ''', (emp_id, date, gross, net))
     conn.commit()
     conn.close()
+
+
+def create_admin_table():
+    conn = sqlite3.connect('data/payroll.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS admins (
+            username TEXT PRIMARY KEY,
+            password_hash TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
