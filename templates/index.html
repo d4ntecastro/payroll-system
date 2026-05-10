@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Pro Dashboard</title>
+    <style>
+        body {
+            background-color: #f4f7f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .dashboard-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 8px solid #007bff;
+            width: 400px;
+        }
+        h1 { color: #333; margin-bottom: 10px; }
+        .status-badge {
+            background: #e7f3ff;
+            color: #007bff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+        .btn:hover { background-color: #218838; }
+        .footer-note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-card">
+        <h1>Payroll Pro</h1>
+        <div class="status-badge">
+            📡 System Status: Connected
+        </div>
+        
+        <p>Found <strong>{{ count }}</strong> active employee(s) in database.</p>
+
+        <form action="/run-payroll" method="POST">
+            <button type="submit" class="btn">🚀 Run Monthly Payroll</button>
+        </form>
+
+        <div class="footer-note">
+            PDFs will be generated in <code>/payslips</code>
+        </div>
+    </div>
+
+</body>
+</html>

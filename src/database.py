@@ -1,7 +1,6 @@
 from datetime import datetime
 from generator import generate_payslip
 from calculations import calculate_tax
-from database import get_all_employees, save_payroll_record
 import sqlite3
 
 
