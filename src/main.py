@@ -1,3 +1,4 @@
+from database import create_tables, add_employee_to_db
 from database import create_tables
 
 
@@ -23,3 +24,32 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def menu():
+    while True:
+        print("\n--- 💼 Payroll System Pro ---")
+        print("1. Add New Employee")
+        print("2. Exit")
+
+        choice = input("Select an option: ")
+
+        if choice == '1':
+            name = input("Enter Employee Name: ")
+            pos = input("Enter Position: ")
+            try:
+                salary = float(input("Enter Base Monthly Salary: "))
+                add_employee_to_db(name, pos, salary)
+            except ValueError:
+                print("⚠️ Invalid salary amount. Please enter a number.")
+
+        elif choice == '2':
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice, please try again.")
+
+
+if __name__ == "__main__":
+    create_tables()  # Ensures DB exists on startup
+    menu()

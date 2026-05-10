@@ -35,3 +35,20 @@ def create_tables():
 
 if __name__ == "__main__":
     create_tables()
+
+
+def add_employee_to_db(name, position, salary):
+    conn = sqlite3.connect('data/payroll.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('''
+            INSERT INTO employees (name, position, base_salary)
+            VALUES (?, ?, ?)
+        ''', (name, position, salary))
+        conn.commit()
+        print(f"\n✅ Successfully added {name} to the system.")
+    except sqlite3.Error as e:
+        print(f"❌ Error adding employee: {e}")
+    finally:
+        conn.close()
