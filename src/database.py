@@ -1,3 +1,7 @@
+from datetime import datetime
+from generator import generate_payslip
+from calculations import calculate_tax
+from database import get_all_employees, save_payroll_record
 import sqlite3
 
 
@@ -85,3 +89,24 @@ def create_admin_table():
     ''')
     conn.commit()
     conn.close()
+
+
+def run_monthly_payroll():
+    employees = get_all_employees()
+    today = datetime.now().strftime("%Y-%m-%d")
+    results = []
+
+    for emp in employees:
+        emp_id, name, gross = emp
+        tax = calculate_tax(gross)
+        net = gross - tax
+
+        # Save record to the database
+        save_payroll_record(emp_id, today, gross, net)
+
+        # Generate the physical PDF file
+        pdf_path = generate_payslip(name, today, gross, tax, net)
+
+        results.append({"name": name, "net": net, "path": pdf_path})
+
+    return results

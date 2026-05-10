@@ -1,3 +1,4 @@
+from database import save_payroll_record
 from calculations import calculate_tax
 from generator import generate_payslip
 from datetime import datetime
@@ -82,15 +83,20 @@ def run_monthly_payroll():
 # print("2. Run Monthly Payroll")
 # print("3. Exit")
 
-# Inside your run_monthly_payroll() loop:
-for emp in employees:
-    emp_id, name, gross = emp
-    tax = calculate_tax(gross)
-    net = gross - tax
 
-    # Save to DB
-    save_payroll_record(emp_id, today, gross, net)
+def run_monthly_payroll(employees):
+    today = datetime.now().strftime("%Y-%m-%d")
 
-    # NEW: Generate PDF
-    pdf_path = generate_payslip(name, today, gross, tax, net)
-    print(f"✅ Generated PDF for {name}: {pdf_path}")
+    for emp in employees:
+        # Unpacking the tuple from the database
+        emp_id, name, gross = emp
+
+        tax = calculate_tax(gross)
+        net = gross - tax
+
+        # Save to DB
+        save_payroll_record(emp_id, today, gross, net)
+
+        # Generate PDF
+        pdf_path = generate_payslip(name, today, gross, tax, net)
+        print(f"✅ Generated PDF for {name}: {pdf_path}")

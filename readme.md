@@ -18,3 +18,11 @@ A Python-based system designed to automate salary calculations, tax deductions, 
 
 1. Clone the repo: `git clone https://github.com/d4ntecastro/payroll-system.git`
 2. Run the main script: `python src/main.py`
+
+## 🖥️ How to Run the GUI
+
+To launch the desktop application, run:
+
+```bash
+python src/gui.py
+```
