@@ -1,3 +1,6 @@
+from datetime import datetime
+from calculations import calculate_net_salary
+from database import create_tables, add_employee_to_db, get_all_employees, save_payroll_record
 from database import create_tables, add_employee_to_db
 from database import create_tables
 
@@ -53,3 +56,25 @@ def menu():
 if __name__ == "__main__":
     create_tables()  # Ensures DB exists on startup
     menu()
+
+
+def run_monthly_payroll():
+    employees = get_all_employees()
+    if not employees:
+        print("No employees found. Add some first!")
+        return
+
+    today = datetime.now().strftime("%Y-%m-%d")
+    print(f"\n--- Running Payroll for {today} ---")
+
+    for emp in employees:
+        emp_id, name, gross = emp
+        net = calculate_net_salary(gross)
+        save_payroll_record(emp_id, today, gross, net)
+        print(f"💰 Processed {name}: Gross ${gross} | Net ${net}")
+
+    print("\n✅ All payroll records saved to database.")
+
+# Update your menu() function to include:
+# print("2. Run Monthly Payroll")
+# print("3. Exit")

@@ -52,3 +52,23 @@ def add_employee_to_db(name, position, salary):
         print(f"❌ Error adding employee: {e}")
     finally:
         conn.close()
+
+
+def get_all_employees():
+    conn = sqlite3.connect('data/payroll.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, name, base_salary FROM employees')
+    employees = cursor.fetchall()
+    conn.close()
+    return employees
+
+
+def save_payroll_record(emp_id, date, gross, net):
+    conn = sqlite3.connect('data/payroll.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO payroll_records (employee_id, pay_date, gross_pay, net_pay)
+        VALUES (?, ?, ?, ?)
+    ''', (emp_id, date, gross, net))
+    conn.commit()
+    conn.close()
